@@ -1,0 +1,100 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script>
+		<title>Dawn of the <span id="days_since"></span> day</title>
+	</head>
+	<style>
+	body {
+		background-color:black;
+	}
+	h1 {
+		font-family: "Arial Narrow";
+		font-size: 15vw;
+		font-style: normal;
+		font-variant: normal;
+		font-weight: bold;
+		color:white;
+		text-align:center;
+		letter-spacing:-0.5vw;
+	}
+	h2 {
+		font-family: "Arial Narrow";
+		font-size: 7vw;
+		font-style: normal;
+		font-variant:normal;
+		font-weight:bold;
+		color:white;
+		text-align:center;
+		letter-spacing:-0.5vw;
+	}
+	.text {
+		color:white;
+		font-family: "Arial Narrow";
+		font-style:normal;
+		font-variant:normal;
+		font-weight:bold;
+		text-align:center;
+	}
+	.outer {
+	    display: table;
+	    position: absolute;
+	    height: 100%;
+	}
+	
+	.middle {
+	    display: table-cell;
+	    vertical-align: middle;
+	    width:50%;
+	}
+	
+	.inner {
+	    margin-left: auto;
+	    margin-right: auto; 
+	}
+	</style>
+	<body>
+		<div class="outer">
+		  <div class="middle">
+		    <div class="inner">
+				<h2>Dawn of</h2>
+				<h1>The <span id="days_since"></span> Day</h1>
+				<h2>-<span id="days_till"></span> Hours Remain-</h2>
+		    </div>
+		  </div>
+		</div>
+	<audio autoplay><source src="dawn.wav" type="audio/wav"></audio>
+	</body>
+	<script>
+	// Calculate days since Jan 20th, 2017
+		var initialDate = new Date(2017, 01, 20); // month is zero-based
+		var now = Date.now();
+		var difference = now - initialDate;
+		var millisecondsPerDay = 24 * 60 * 60 * 1000;
+		var daysSince = Math.floor(difference / millisecondsPerDay + 32); // dunno why but had to add 32 days to get correct answer?
+	// Do ordinal magic
+		function ordinal_suffix_of(i) {
+		    var j = i % 10,
+		        k = i % 100;
+		    if (j == 1 && k != 11) {
+		        return i + "st";
+		    }
+		    if (j == 2 && k != 12) {
+		        return i + "nd";
+		    }
+		    if (j == 3 && k != 13) {
+		        return i + "rd";
+		    }
+		    return i + "th";
+		}
+		var daysSinceO = ordinal_suffix_of(daysSince);
+	// Calculate days till Jan 20th, 2018
+		var daysTill = Math.floor(35040 - (daysSince*24) ); // weird math but it works
+	// Write result to HTML
+		document.getElementById('days_since').innerHTML = daysSinceO;
+		document.getElementById('days_till').innerHTML = daysTill;
+	// Document title
+		document.title = "Dawn of the " + daysSinceO + " day";
+	</script>
+</html>
